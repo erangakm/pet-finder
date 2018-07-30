@@ -24,5 +24,10 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
         
-      - run: npm run-script tests
+      - run:
+          name: Frontend tests
+          command: |
+            CHROME_BIN=google-chrome
+            npm run-script tests
+         
 
