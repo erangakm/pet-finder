@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/node:10
+      - image: circleci/node:10-browsers
 
     working_directory: ~/repo
 
@@ -26,8 +26,9 @@ jobs:
         
       - run:
           name: Frontend tests
+          environment: 
+            CHROME_BIN: "/usr/bin/google-chrome"
           command: |
-            CHROME_BIN=google-chrome
             npm run-script tests
          
 
