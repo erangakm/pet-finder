@@ -21,11 +21,11 @@ jobs:
             CHROME_BIN: "/usr/bin/google-chrome"
           command: |
             npm run-script tests
-      -run:
+      - run:
           name: Prod build
           command: |
             ng build --prod
-      -run:
+      - run:
           name: Prod deploy
           command: |
             ./node_modules/.bin/firebase deploy --token=$FIREBASE_DEPLOY_TOKEN
