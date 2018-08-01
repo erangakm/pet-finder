@@ -24,7 +24,7 @@ jobs:
       - run:
           name: Prod build
           command: |
-            ng build --prod
+            npm run-script build --prod
       - run:
           name: Prod deploy
           command: |
