@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  setup:
     docker:
       - image: circleci/node:10-browsers
     working_directory: ~/repo
@@ -15,18 +15,28 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
+  lint:
+    steps:
+      - run:
+          name: Lint
+          command: npm run-script lint          
+  test:
+    steps:
       - run:
           name: Frontend tests
           environment: 
             CHROME_BIN: "/usr/bin/google-chrome"
-          command: |
-            npm run-script tests
+          command: npm run-script test-no-watch
+  build:
+    steps:
       - run:
           name: Prod build
-          command: |
-            npm run-script build --prod
+          command: npm run-script build --prod
+  deploy:
+    steps:
       - run:
           name: Prod deploy
           command: |
             ./node_modules/.bin/firebase use production --token=$FIREBASE_DEPLOY_TOKEN
             ./node_modules/.bin/firebase deploy --token=$FIREBASE_DEPLOY_TOKEN --non-interactive
+
