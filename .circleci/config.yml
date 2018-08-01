@@ -31,7 +31,7 @@ jobs:
           environment: 
             CHROME_BIN: "/usr/bin/google-chrome"
           command: npm run-script test-no-watch
-  build:
+  prod_build:
     docker:
       - image: circleci/node:10-browsers
     steps:
