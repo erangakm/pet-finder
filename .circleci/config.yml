@@ -16,11 +16,15 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
   lint:
+    docker:
+      - image: circleci/node:10-browsers
     steps:
       - run:
           name: Lint
           command: npm run-script lint          
   test:
+    docker:
+      - image: circleci/node:10-browsers
     steps:
       - run:
           name: Frontend tests
@@ -28,11 +32,15 @@ jobs:
             CHROME_BIN: "/usr/bin/google-chrome"
           command: npm run-script test-no-watch
   build:
+    docker:
+      - image: circleci/node:10-browsers
     steps:
       - run:
           name: Prod build
           command: npm run-script build --prod
   deploy:
+    docker:
+      - image: circleci/node:10-browsers
     steps:
       - run:
           name: Prod deploy
