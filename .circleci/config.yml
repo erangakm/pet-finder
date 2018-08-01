@@ -28,5 +28,4 @@ jobs:
       - run:
           name: Prod deploy
           command: |
-            ./node_modules/.bin/firebase use production
-            ./node_modules/.bin/firebase deploy --token=$FIREBASE_DEPLOY_TOKEN
+            ./node_modules/.bin/firebase deploy --token=$FIREBASE_DEPLOY_TOKEN --non-interactive
