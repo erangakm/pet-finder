@@ -1,33 +1,33 @@
 version: 2
 jobs:
   setup:
+    working_directory: ~/workspace/repo
     docker:
       - image: circleci/node:10-browsers
-    working_directory: ~/repo
     steps:
       - checkout
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
       - run: npm install
-      - save_cache:
+      - persist_to_workspace:
+          root: "~/workspace"
           paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+            - "repo"
   lint:
     docker:
       - image: circleci/node:10-browsers
-    working_directory: ~/repo
+    working_directory: ~/workspace/repo
     steps:
+      - attach_workspace:
+          at: ~/workspace
       - run:
           name: Lint
           command: npm run-script lint          
   test:
     docker:
       - image: circleci/node:10-browsers
-    working_directory: ~/repo
+    working_directory: ~/workspace/repo
     steps:
+      - attach_workspace:
+          at: ~/workspace
       - run:
           name: Frontend tests
           environment: 
@@ -36,16 +36,20 @@ jobs:
   prod_build:
     docker:
       - image: circleci/node:10-browsers
-    working_directory: ~/repo
+    working_directory: ~/workspace/repo
     steps:
+      - attach_workspace:
+          at: ~/workspace
       - run:
           name: Prod build
           command: npm run-script build --prod
   prod_deploy:
     docker:
       - image: circleci/node:10-browsers
-    working_directory: ~/repo
+    working_directory: ~/workspace/repo
     steps:
+      - attach_workspace:
+          at: ~/workspace
       - run:
           name: Prod deploy
           command: |
