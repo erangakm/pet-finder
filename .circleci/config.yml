@@ -75,7 +75,7 @@ workflows:
             branches:
               only: master
       - prod_deploy:
-          requires: ['setup', 'lint', 'karma', 'jasmine', 'deploy_approval']
+          requires: ['deploy_approval']
           filters:
             branches:
               only: master
