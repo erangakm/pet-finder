@@ -1,32 +1,83 @@
 version: 2
 jobs:
-  build:
+  setup:
+    working_directory: ~/workspace/repo
     docker:
       - image: circleci/node:10-browsers
-    working_directory: ~/repo
     steps:
       - checkout
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
       - run: npm install
-      - save_cache:
+      - persist_to_workspace:
+          root: "~/workspace"
           paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+            - "repo"
+  lint:
+    docker:
+      - image: circleci/node:10-browsers
+    working_directory: ~/workspace/repo
+    steps:
+      - attach_workspace:
+          at: ~/workspace
+      - run:
+          name: Lint
+          command: npm run-script lint          
+  test:
+    docker:
+      - image: circleci/node:10-browsers
+    working_directory: ~/workspace/repo
+    steps:
+      - attach_workspace:
+          at: ~/workspace
       - run:
           name: Frontend tests
           environment: 
             CHROME_BIN: "/usr/bin/google-chrome"
-          command: |
-            npm run-script tests
+          command: npm run-script test-no-watch
+  prod_build:
+    docker:
+      - image: circleci/node:10-browsers
+    working_directory: ~/workspace/repo
+    steps:
+      - attach_workspace:
+          at: ~/workspace
       - run:
           name: Prod build
-          command: |
-            npm run-script build --prod
+          command: npm run-script build --prod
+  prod_deploy:
+    docker:
+      - image: circleci/node:10-browsers
+    working_directory: ~/workspace/repo
+    steps:
+      - attach_workspace:
+          at: ~/workspace
       - run:
           name: Prod deploy
           command: |
             ./node_modules/.bin/firebase use production --token=$FIREBASE_DEPLOY_TOKEN
             ./node_modules/.bin/firebase deploy --token=$FIREBASE_DEPLOY_TOKEN --non-interactive
+
+workflows:
+  version: 2
+  ci:
+    jobs:
+      - setup
+      - lint:
+          requires: ['setup']
+      - test:
+          requires: ['setup']
+      - deploy_approval:
+          type: approval
+          requires: ['setup', 'lint', 'test']
+          filters:
+            branches:
+              only: master
+      - prod_build:
+          filters:
+            branches:
+              only: master
+      - prod_deploy:
+          requires: ['prod_build', 'deploy_approval']
+          filters:
+            branches:
+              only: master
+
