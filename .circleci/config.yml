@@ -3,7 +3,7 @@ jobs:
   setup:
     working_directory: ~/workspace/repo
     docker:
-      - image: circleci/node:10-browsers
+      - image: circleci/node
     steps:
       - checkout
       - run: npm install
@@ -13,7 +13,7 @@ jobs:
             - "repo"
   lint:
     docker:
-      - image: circleci/node:10-browsers
+      - image: circleci/node
     working_directory: ~/workspace/repo
     steps:
       - attach_workspace:
@@ -35,7 +35,7 @@ jobs:
           command: npm run-script test-no-watch
   prod_deploy:
     docker:
-      - image: circleci/node:10-browsers
+      - image: circleci/node
     working_directory: ~/workspace/repo
     steps:
       - attach_workspace:
@@ -67,4 +67,3 @@ workflows:
           filters:
             branches:
               only: master
-
