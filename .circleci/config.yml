@@ -21,7 +21,7 @@ jobs:
       - run:
           name: Lint
           command: npm run-script lint          
-  test:
+  karma:
     docker:
       - image: circleci/node:10-browsers
     working_directory: ~/workspace/repo
@@ -29,10 +29,20 @@ jobs:
       - attach_workspace:
           at: ~/workspace
       - run:
-          name: Frontend tests
+          name: Karma tests
           environment: 
             CHROME_BIN: "/usr/bin/google-chrome"
           command: npm run-script test -- --watch=false
+  jasmine:
+    docker:
+      - image: circleci/node:10-browsers
+    working_directory: ~/workspace/repo
+    steps:
+      - attach_workspace:
+          at: ~/workspace
+      - run:
+          name: Jasmine tests
+          command: npm run-script e2e -- --port=5000
   prod_deploy:
     docker:
       - image: circleci/node
@@ -54,16 +64,18 @@ workflows:
       - setup
       - lint:
           requires: ['setup']
-      - test:
+      - karma:
+          requires: ['setup']
+      - jasmine:
           requires: ['setup']
       - deploy_approval:
           type: approval
-          requires: ['setup', 'lint', 'test']
+          requires: ['setup', 'lint', 'karma', 'jasmine']
           filters:
             branches:
               only: master
       - prod_deploy:
-          requires: ['setup', 'lint', 'test', 'deploy_approval']
+          requires: ['setup', 'lint', 'karma', 'jasmine', 'deploy_approval']
           filters:
             branches:
               only: master
