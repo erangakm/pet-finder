@@ -67,7 +67,6 @@ workflows:
           requires: ['setup']
       - deploy_approval:
           type: approval
-          requires: ['setup', 'lint', 'test']
           filters:
             branches:
               only: master
