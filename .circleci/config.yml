@@ -65,13 +65,19 @@ workflows:
           requires: ['setup']
       - test:
           requires: ['setup']
+      - deploy_approval:
+          type: approval
+          requires: ['setup', 'lint', 'test']
+          filters:
+            branches:
+              only: master
       - prod_build:
+          requires: ['lint', 'test']
           filters:
             branches:
               only: master
       - prod_deploy:
-          type: approval
-          requires: ['prod_build']
+          requires: ['deploy_approval']
           filters:
             branches:
               only: master
