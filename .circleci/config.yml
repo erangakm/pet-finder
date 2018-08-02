@@ -32,7 +32,7 @@ jobs:
           name: Frontend tests
           environment: 
             CHROME_BIN: "/usr/bin/google-chrome"
-          command: npm run-script test-no-watch
+          command: npm run-script test -- --watch=false
   prod_deploy:
     docker:
       - image: circleci/node
@@ -43,7 +43,7 @@ jobs:
       - run:
           name: Prod deploy
           command: |
-            npm run-script prod-build
+            npm run-script build -- --prod
             ./node_modules/.bin/firebase use production --token=$FIREBASE_DEPLOY_TOKEN
             ./node_modules/.bin/firebase deploy --token=$FIREBASE_DEPLOY_TOKEN --non-interactive
 
