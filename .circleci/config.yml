@@ -38,7 +38,7 @@ jobs:
       - run:
           name: Prod build
           command: npm run-script build --prod
-  deploy:
+  prod_deploy:
     docker:
       - image: circleci/node:10-browsers
     steps:
@@ -47,4 +47,24 @@ jobs:
           command: |
             ./node_modules/.bin/firebase use production --token=$FIREBASE_DEPLOY_TOKEN
             ./node_modules/.bin/firebase deploy --token=$FIREBASE_DEPLOY_TOKEN --non-interactive
+
+workflows:
+  version: 2
+  ci:
+    jobs:
+      - setup
+      - lint:
+          requires: ['setup']
+      - test:
+          requires: ['setup']
+      - prod_build:
+          requires: ['lint', 'test']
+          filters:
+            branches:
+              only: master
+      - prod_deploy:
+          requires: ['prod_build']
+          filters:
+            branches:
+              only: master
 
