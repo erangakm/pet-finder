@@ -9,6 +9,9 @@ import { LostPetReportComponent } from './forms/lost-pet-report/lost-pet-report.
 import { HomepageHeroComponent } from './homepage-hero/homepage-hero.component';
 import { HomepageContentComponent } from './homepage-content/homepage-content.component';
 import { HomepageComponent } from './homepage/homepage.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -18,11 +21,18 @@ import { HomepageComponent } from './homepage/homepage.component';
     LostPetReportComponent,
     HomepageHeroComponent,
     HomepageContentComponent,
-    HomepageComponent
+    HomepageComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule
   ],
   providers: [],
   bootstrap: [AppComponent]
