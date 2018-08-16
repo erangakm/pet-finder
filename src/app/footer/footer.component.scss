@@ -1,0 +1,44 @@
+@import '../styles/pet-finder-theme.scss';
+
+#footer {
+  // background-color: mat-color($primary);
+  background-color: #424242;
+  padding-top: 40px;
+
+  div.footer-social-icons {
+    text-align: center;
+    padding-bottom: 20px;
+
+    span {
+      margin: 0 20px;
+    }
+  }
+
+  div.main-footer-links {
+    text-align: center;
+    padding-bottom: 20px;
+
+    span a {
+      color: white;
+      padding: 0px 20px;
+      font-size: 15px;
+      font-weight: 500;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+  }
+
+  div.secondary-footer-links {
+    text-align: center;
+    padding-bottom: 40px;
+
+    span a {
+      color: white;
+      font-size: 12px;
+      font-weight: 500;
+      text-decoration: none;
+      text-transform: uppercase;
+      padding: 0px 20px;
+    }
+  }
+}
