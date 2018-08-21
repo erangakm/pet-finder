@@ -9,6 +9,6 @@ describe('workspace-project App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Header works! Deployment 2 works!');
+    expect(page.getSitenameText()).toEqual('Pet Finder');
   });
 });

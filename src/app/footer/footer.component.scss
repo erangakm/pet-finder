@@ -1,0 +1,21 @@
+@import '../styles/pet-finder-theme.scss';
+
+#footer {
+  // background-color: mat-color($primary);
+  background-color: #202124;
+  padding-top: 20px;
+
+  div.footer-social-icons {
+    text-align: center;
+    padding-bottom: 20px;
+
+    span {
+      margin: 0 20px;
+    }
+
+    img {
+      height: 32px;
+      width: 32px;
+    }
+  }
+}
