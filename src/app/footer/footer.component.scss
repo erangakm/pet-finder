@@ -2,8 +2,8 @@
 
 #footer {
   // background-color: mat-color($primary);
-  background-color: #424242;
-  padding-top: 40px;
+  background-color: #202124;
+  padding-top: 20px;
 
   div.footer-social-icons {
     text-align: center;
@@ -12,33 +12,10 @@
     span {
       margin: 0 20px;
     }
-  }
 
-  div.main-footer-links {
-    text-align: center;
-    padding-bottom: 20px;
-
-    span a {
-      color: white;
-      padding: 0px 20px;
-      font-size: 15px;
-      font-weight: 500;
-      text-decoration: none;
-      text-transform: uppercase;
-    }
-  }
-
-  div.secondary-footer-links {
-    text-align: center;
-    padding-bottom: 40px;
-
-    span a {
-      color: white;
-      font-size: 12px;
-      font-weight: 500;
-      text-decoration: none;
-      text-transform: uppercase;
-      padding: 0px 20px;
+    img {
+      height: 32px;
+      width: 32px;
     }
   }
 }
